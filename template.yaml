@@ -9,7 +9,7 @@ Description: >
 
 Parameters:
   HelloWorldFunctionName:
-    Default: sarasa
+    Default: HelloWorld
     Type: String
     Description: HelloWorld lambda default name
 
