@@ -1,4 +1,6 @@
 #!/bin/bash
+# This script is reads the current ENV environment value and injects
+# the corresponding parameter values to the templat.yaml
 
 parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 
