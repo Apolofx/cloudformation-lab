@@ -10,7 +10,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - sam build -t ../template.yaml
+      - sam build
   post_build:
     commands:
-      - ./deploy.sh
+      - ./ci/deploy.sh

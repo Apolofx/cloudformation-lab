@@ -1,5 +1,9 @@
 #!/bin/bash
 
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+
+cd "$parent_path"
+
 if [ -z "$ENV" ]; then
   echo "Error: ENV environment variable not set"
   exit 1
