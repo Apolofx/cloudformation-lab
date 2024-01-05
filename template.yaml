@@ -6,6 +6,13 @@ Description: >
   Sample SAM Template for sam-app
   
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+
+Parameters:
+  HelloWorldFunctionName:
+    Default: sarasa
+    Type: String
+    Description: HelloWorld lambda default name
+
 Globals:
   Function:
     Timeout: 3
@@ -19,6 +26,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: src/hello-world/
+      FunctionName: !Ref HelloWorldFunctionName
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
