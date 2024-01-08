@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Apolofx/cloudformation-lab#readme",
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.131"
+    "@types/aws-lambda": "^8.10.131",
+    "typescript": "^5.3.3"
   }
 }
