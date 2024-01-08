@@ -1,3 +1,5 @@
+import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
+
 /**
  *
  * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
@@ -11,11 +13,12 @@
  *
  */
 
-export const handler = async (event: any, context: any) => {
-  const response = {
+export const handler = async (event: APIGatewayProxyEventV2) => {
+  console.log(event);
+  const response: APIGatewayProxyResultV2 = {
     statusCode: 200,
     body: JSON.stringify({
-      message: "hello world",
+      message: "hello storydots!",
     }),
   };
 
