@@ -8,7 +8,7 @@ phases:
       - npm install 
   pre_build:
     commands:
-      - npx tsc
+      - echo 'pre-build commands are empty'
   build:
     commands:
       - sam build
