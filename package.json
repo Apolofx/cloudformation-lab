@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && npx tsc"
+    "build": "sam build",
+    "start": "sam local start-api",
+    "dev": "watch 'sam build' ./src"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,7 @@
   "homepage": "https://github.com/Apolofx/cloudformation-lab#readme",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.131",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "watch": "^1.0.2"
   }
 }
