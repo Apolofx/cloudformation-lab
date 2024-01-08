@@ -15,4 +15,5 @@ phases:
       - sam build
   post_build:
     commands:
-      - ./ci/deploy.sh
+      - ./ci/set_envs.sh
+      - sam deploy $parameter_overrides --stack-name=sam-app-$ENV --config-file ./ci/samconfig.toml --region=us-east-1
