@@ -27,14 +27,14 @@ Globals:
 
 Resources:
 # Layers
-  Utils:
+  commons:
     Type: AWS::Serverless::LayerVersion
     Properties:
       CompatibleRuntimes: 
         - nodejs20.x
       ContentUri: layers/commons
-      Description: Utils utils layer
-      LayerName: Utils
+      Description: Shared code layer
+      LayerName: !Sub "commons-${Environment}"
       RetentionPolicy: Delete
     Metadata:
       BuildMethod: nodejs20.x
@@ -46,7 +46,7 @@ Resources:
       CodeUri: src/hello-world/
       FunctionName: !Ref HelloWorldFunctionName
       Layers:
-        - !Ref Utils
+        - !Ref commons
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -58,7 +58,6 @@ Resources:
       BuildProperties:
         External:
           - "axios"
-      #   - "Utils"
       #   Minify: false
       #   Target: "es2015"
       #   Sourcemap: true

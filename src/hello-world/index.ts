@@ -20,7 +20,7 @@ import { logger } from "commons";
 
 export const handler = async (event: APIGatewayProxyEventV2) => {
   // logger("asdasdas");
-  logger("asdasd")
+  logger("asdasd");
   const test_payload = await axios
     .get("https://jsonplaceholder.typicode.com/todos/1")
     .then((response) => response.data);
