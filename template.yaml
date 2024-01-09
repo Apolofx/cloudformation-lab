@@ -32,7 +32,7 @@ Resources:
     Properties:
       CompatibleRuntimes: 
         - nodejs20.x
-      ContentUri: layers
+      ContentUri: layers/commons
       Description: Utils utils layer
       LayerName: Utils
       RetentionPolicy: Delete

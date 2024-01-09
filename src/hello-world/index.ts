@@ -1,5 +1,6 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import axios from "axios";
+import { logger } from "commons";
 // import { logger } from "Utils";
 
 /**
@@ -19,6 +20,7 @@ import axios from "axios";
 
 export const handler = async (event: APIGatewayProxyEventV2) => {
   // logger("asdasdas");
+  logger("asdasd")
   const test_payload = await axios
     .get("https://jsonplaceholder.typicode.com/todos/1")
     .then((response) => response.data);
