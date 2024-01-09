@@ -16,7 +16,8 @@ phases:
   post_build:
     commands:
       - |
-        cd ci
+        ENV=dev  
+        cd ./ci
         if [ -z "$ENV" ]; then
           echo "Error: ENV environment variable not set"
           exit 1
@@ -29,12 +30,11 @@ phases:
           exit 1
         fi
 
-        parameter_overrides=""
+        parameter_overrides="--parameter-overrides"
 
         while IFS='=' read -r key value || [[ -n "$key" ]]; do
           parameter_overrides+=" $key=$value"
         done < "$env_file"
-
-        echo "Running 'sam deploy' command with parameter overrides:"
         echo "$parameter_overrides"
-        sam deploy --parameter-overrides $parameter_overrides --stack-name=sam-app-$ENV --config-file ./samconfig.toml --region=us-east-1
+        cd ../
+        sam deploy $(echo "$parameter_overrides") --stack-name=sam-app-$ENV --config-file ./samconfig.toml --region=us-east-1
