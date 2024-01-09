@@ -1,27 +1,29 @@
 #!/bin/bash
-# This script reads the current ENV environment variable value and injects
+# This script is reads the current ENV environment variable value and injects
 # the corresponding parameter values to the template.yaml before `sam deploy`
 
-script_dir=$(dirname "$(realpath "$0")")
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+
+cd "$parent_path"
 
 if [ -z "$ENV" ]; then
   echo "Error: ENV environment variable not set"
   exit 1
 fi
 
-env_file=$(find "$script_dir" -maxdepth 1 -type f -name ".env.$ENV")
+env_file=".env.$ENV"
 
-if [ -z "$env_file" ]; then
-  echo "Error: .env.$ENV not found in the script's directory"
+if [ ! -f "$env_file" ]; then
+  echo "Error: $env_file not found"
   exit 1
 fi
 
-parameter_overrides=""
+parameter_overrides="--parameter-overrides"
 
 while IFS='=' read -r key value || [[ -n "$key" ]]; do
   parameter_overrides+=" $key=$value"
 done < "$env_file"
 
-echo "Parameter overrides for '$ENV' environment"
+echo "Running 'sam deploy' command with parameter overrides:"
 echo "$parameter_overrides"
-export CLOUDFORMATION_PARAMETER_OVERRIDES="$parameter_overrides"
+
