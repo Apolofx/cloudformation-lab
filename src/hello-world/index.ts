@@ -1,7 +1,6 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import axios from "axios";
 import { logger } from "commons";
-// import { logger } from "Utils";
 
 /**
  *

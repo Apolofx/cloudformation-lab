@@ -16,7 +16,11 @@ Parameters:
     Default: dev
     Type: String
     Description: Current environment
-
+  AppURL:
+    Default: https://age-validation-dev.storydots.app
+    Type: String
+    Description: Current environment
+    
 Globals:
   Function:
     Timeout: 3
