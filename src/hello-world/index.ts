@@ -1,5 +1,7 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import axios from "axios";
+// import { logger } from "Utils";
+
 /**
  *
  * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
@@ -16,6 +18,7 @@ import axios from "axios";
 // Test this function running: `sam local invoke --event events/event.json HelloWorldFunction`
 
 export const handler = async (event: APIGatewayProxyEventV2) => {
+  // logger("asdasdas");
   const test_payload = await axios
     .get("https://jsonplaceholder.typicode.com/todos/1")
     .then((response) => response.data);

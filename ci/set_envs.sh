@@ -16,7 +16,7 @@ if [ -z "$env_file" ]; then
   exit 1
 fi
 
-parameter_overrides="--parameter-overrides"
+parameter_overrides=""
 
 while IFS='=' read -r key value || [[ -n "$key" ]]; do
   parameter_overrides+=" $key=$value"
@@ -24,3 +24,4 @@ done < "$env_file"
 
 echo "Parameter overrides for '$ENV' environment"
 echo "$parameter_overrides"
+export CLOUDFORMATION_PARAMETER_OVERRIDES="$parameter_overrides"

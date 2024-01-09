@@ -12,6 +12,10 @@ Parameters:
     Default: HelloWorld
     Type: String
     Description: HelloWorld lambda default name
+  Environment:
+    Default: dev
+    Type: String
+    Description: Current environment
 
 Globals:
   Function:
@@ -22,19 +26,27 @@ Globals:
     Handler: index.handler
 
 Resources:
-  # TestLayer:
-  #   Type: AWS::Serverless::LayerVersion
-  #   Properties:
-  #     CompatibleRuntimes: [nodejs20.x]
-  #     ContentUri: layers/test_layer
-  #     Description: Test Layer
-  #     LayerName: test-layer
-  #     RetentionPolicy: Delete
+# Layers
+  Utils:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      CompatibleRuntimes: 
+        - nodejs20.x
+      ContentUri: layers
+      Description: Utils utils layer
+      LayerName: Utils
+      RetentionPolicy: Delete
+    Metadata:
+      BuildMethod: nodejs20.x
+      BuildArchitecture: x86_64
+# Lambdas    
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: src/hello-world/
       FunctionName: !Ref HelloWorldFunctionName
+      Layers:
+        - !Ref Utils
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -43,14 +55,15 @@ Resources:
             Method: get
     Metadata:
       BuildMethod: esbuild
-      # BuildProperties:
+      BuildProperties:
+        External:
+          - "axios"
+      #   - "Utils"
       #   Minify: false
       #   Target: "es2015"
       #   Sourcemap: true
       #   EntryPoints: 
       #     - index.ts
-      #   External:
-      #     - "<package-to-exclude>"
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

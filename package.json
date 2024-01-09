@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Apolofx/cloudformation-lab#readme",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.131",
+    "axios": "^1.6.5",
     "watch": "^1.0.2"
   }
 }
