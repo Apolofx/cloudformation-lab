@@ -4,10 +4,10 @@
   "description": "This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "sam build",
+    "build:layers": "CURR_DIR=$(pwd) cd ./layers/commons && npm run build && cd $CURR_DIR",
+    "build": "npm run build:layers && sam build",
     "start": "sam local start-api",
-    "dev": "watch 'sam build' ./src"
+    "dev": "watch 'npm run build' ./src --ignoreDirectoryPattern='\/(dist|node_modules)\/'"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,8 @@
     "@types/aws-lambda": "^8.10.131",
     "axios": "^1.6.5",
     "watch": "^1.0.2"
+  },
+  "_moduleAliases": {
+    "Utils": "layers/utils"
   }
 }
