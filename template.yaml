@@ -36,7 +36,7 @@ Resources:
     Properties:
       CompatibleRuntimes: 
         - nodejs20.x
-      ContentUri: layers/commons
+      ContentUri: layers/commons/dist
       Description: Shared code layer
       LayerName: !Sub "commons-${Environment}"
       RetentionPolicy: Delete

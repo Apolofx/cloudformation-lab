@@ -1,6 +1,6 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import axios from "axios";
-import { logger } from "commons";
+import { logger, db } from "commons";
 
 /**
  *
@@ -18,8 +18,8 @@ import { logger } from "commons";
 // Test this function running: `sam local invoke --event events/event.json HelloWorldFunction`
 
 export const handler = async (event: APIGatewayProxyEventV2) => {
-  // logger("asdasdas");
-  logger("asdasd");
+  logger("test");
+  logger(db.user);
   const test_payload = await axios
     .get("https://jsonplaceholder.typicode.com/todos/1")
     .then((response) => response.data);

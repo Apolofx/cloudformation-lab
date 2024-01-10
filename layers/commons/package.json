@@ -4,12 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean && npm i",
+    "move-files": "cp package.json dist/ && cp package-lock.json dist/",
+    "build": "npx tsc && npm run move-files"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.6.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
   }
 }
