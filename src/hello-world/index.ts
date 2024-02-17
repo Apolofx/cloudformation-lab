@@ -12,7 +12,7 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
   const response: APIGatewayProxyResultV2 = {
     statusCode: 200,
     body: JSON.stringify({
-      message: "hello storydots!",
+      message: "hello world!",
       body: test_payload,
     }),
   };
