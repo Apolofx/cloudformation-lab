@@ -5,6 +5,7 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
+      - echo 'current environment -->' $ENV
       - npm install -g esbuild
       - npm install 
   pre_build:
@@ -12,7 +13,7 @@ phases:
       - echo 'pre-build commands are empty'
   build:
     commands:
-      - sam build
+      - npm run build
   post_build:
     commands:
       - |
@@ -36,4 +37,4 @@ phases:
         done < "$env_file"
         echo "$parameter_overrides"
         cd ../
-        sam deploy $(echo "$parameter_overrides") --stack-name=sam-app-$ENV --config-file ./ci/samconfig.toml --region=us-east-1
+        sam deploy $(echo "$parameter_overrides") --stack-name=<app-name>-$ENV --config-file ./ci/samconfig.toml --region=us-east-1

@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.",
   "main": "index.js",
+  "engines": {
+    "node": ">=18 <=20"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "sam build",
-    "start": "sam local start-api",
-    "dev": "watch 'sam build' ./src"
+    "build:layers": "npm run build --prefix layers/commons",
+    "build": "npm run build:layers && sam build",
+    "serve": "sam local start-api",
+    "build:watch": "npx nodemon -V --exec 'npm run build'",
+    "serve:watch": "npx nodemon -V --exec 'npm run build && npm run serve'"
   },
   "repository": {
     "type": "git",
@@ -21,8 +25,27 @@
   },
   "homepage": "https://github.com/Apolofx/cloudformation-lab#readme",
   "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.485.0",
+    "@aws-sdk/client-s3": "3.485.0",
     "@types/aws-lambda": "^8.10.131",
+    "@types/node": "^20.11.0",
     "axios": "^1.6.5",
-    "watch": "^1.0.2"
+    "commons": "file:./layers/commons/src",
+    "nodemon": "^3.0.2"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "ci",
+      "events",
+      "**/dist/**",
+      "**/*.json",
+      "**/node_modules/**"
+    ],
+    "ext": "ts,json,yaml",
+    "watch": [
+      "src",
+      "layers"
+    ],
+    "delay": 1500
   }
 }

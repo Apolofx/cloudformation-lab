@@ -8,14 +8,47 @@ Description: >
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 
 Parameters:
-  HelloWorldFunctionName:
-    Default: HelloWorld
+  ExternalPackages:
     Type: String
-    Description: HelloWorld lambda default name
+    Description: external packages not needed in bundle
+    Default: "@aws-sdk/client-s3,@aws-sdk/client-dynamodb,commons,axios"
+  Region:
+    Type: String
+    Description: region
+    Default: "us-east-1"
   Environment:
     Default: dev
     Type: String
     Description: Current environment
+  # AppURL:
+  #   Default: <replace-with-api-url>
+  #   Type: String
+  #   Description: App URL
+  # ApiURL:
+  #   Default: <replace-with-api-url>
+  #   Type: String
+  #   Description: API URL
+  # LambdaRole:
+  #   Type: String
+  #   Description: role for lambda execution
+  #   Default: "<default-lambda-role-arn>"
+  # tnAppId:
+  #   Type: String
+  #   Description: Tiendanube app id
+  #   Default: "<tiendanube-app-id>"
+  # tnAppSecret:
+  #   Type: String
+  #   Description: Tiendanube app secret
+  #   Default: <tiendanube-app-secret>
+  # tnUrlAuthToken:
+  #   Type: String
+  #   Description: Url de autorización de Tiendanube
+  #   Default: https://www.tiendanube.com/apps/authorize/token
+  # ClientsTableName:
+  #   Type: String
+  #   Description: name of dynamo table
+  #   Default: "<app-name>-clients-dev"
+
 
 Globals:
   Function:
@@ -24,29 +57,49 @@ Globals:
     Architectures:
       - x86_64
     Handler: index.handler
+    Environment:
+      Variables:
+        REGION: !Ref Region
+        ENVNAME: !Ref Environment
+
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,OPTIONS'"
+      AllowHeaders: "'content-type,authorization'"
+      AllowOrigin: "'*'"
+      AllowCredentials: "'*'"
+  # Define all the required Authorizers.
+    # Auth:
+    #   Authorizers:
+    #     LambdaTokenAuthorizer:
+    #       Identity:
+    #         Header: Authorization
+    #         ValidationExpression: Bearer.*
+    #       FunctionArn: !GetAtt <replace-with-authorizer-logical-id>.Arn
 
 Resources:
 # Layers
-  Utils:
+  commons:
     Type: AWS::Serverless::LayerVersion
     Properties:
       CompatibleRuntimes: 
         - nodejs20.x
-      ContentUri: layers
-      Description: Utils utils layer
-      LayerName: Utils
+      ContentUri: layers/commons/dist
+      Description: Shared code layer
+      LayerName: !Sub "commons-${Environment}"
       RetentionPolicy: Delete
     Metadata:
       BuildMethod: nodejs20.x
       BuildArchitecture: x86_64
 # Lambdas    
-  HelloWorldFunction:
+  HelloWorld:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: src/hello-world/
-      FunctionName: !Ref HelloWorldFunctionName
+      FunctionName: !Sub "HelloWorld-${Environment}"
+      Role: !Ref LambdaRole
       Layers:
-        - !Ref Utils
+        - !Ref commons
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -56,25 +109,5 @@ Resources:
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
-        External:
-          - "axios"
-      #   - "Utils"
-      #   Minify: false
-      #   Target: "es2015"
-      #   Sourcemap: true
-      #   EntryPoints: 
-      #     - index.ts
-
-Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+        External: !Split [",", !Ref ExternalPackages]
+        Minify: false

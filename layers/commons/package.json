@@ -1,0 +1,23 @@
+{
+  "name": "commons",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "npm i && rm -rf dist",
+    "build": "npx tsc",
+    "postbuild": "shx cp package.json package-lock.json dist/ && npm install --production --prefix dist/ && shx cp package.json package-lock.json dist/commons/ && npm i --prefix dist/ ./dist/commons"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.5",
+    "commons": "file:"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "shx": "^0.3.4",
+    "typescript": "^5.3.3"
+  }
+}
